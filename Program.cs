@@ -17,22 +17,20 @@ class Program
         };
 
         /* La oss si vi skal lage en ny liste over alle navnene til hver planet. */
-        /* List<string> PlanetNames = [];
+         List<string> PlanetNames = [];
         foreach (var planet in planets)
         {
             PlanetNames.Add(planet.Name);
-        } */
+        } 
         //Eksempel på bruk av linq metoder for å "selecte" hvert navn til en ny liste, isteden for å loope.
-        /*  var planetNames = planets.Select(p => p.Name).ToList(); */
+        var planetNames = planets.Select(p => p.Name).ToList(); 
 
 
         //eksempel på det faktiske query språket vårt for å gjøre samme operasjon.
-        /* var planetNames = (from planet in planets
-                                            select planet.Name).ToList(); */
+        var planetNamesWithLinQLang = (from planet in planets
+                                                    select planet.Name).ToList();
 /* 
         Eksempel på en lambda funksjon, som tar in en generisk Planet, og returnerer en bool
-
-
         Typedeklareringen Func<Planet, bool> forteller compileren at dette er en funksjon, som tar in venstresiden (Planet)
         som parameter, og returnerer høyresiden (bool) som returnverdi.
 
@@ -46,9 +44,10 @@ class Program
         så definerer vi operasjonen planeten skal brukes i: planet.Size < 7000;
         Som vi husker fra tidligere så er sammenligningsoperasjoner en operasjon som returnerer en boolean verdi,
         og det er verdien av denne opearsjonen som blir returnert av Func<Planet, Bool>
+        */
         Func<Planet, bool> FilterPlanets = planet => planet.Size < 7000;
 
-
+        /*
         Vi kan da bruke denne FilterPlanets funksjonen vår i operasjoner hvor operasjonen skal gjøres på en Planet
         og returnere en bool.
 
@@ -59,10 +58,9 @@ class Program
         Legg merke til at vi ikke trenger å definere en placeholder for Planets som parameter i Where() metoden, vi trenger
         bare å legge inn funksjonsnavnet, siden funksjonen vår allerede sier at vi skal ta inn
         en planet, og returnere en bool, som er nøyaktig det .Where() på planets trenger. 
+        */
         var smallPlanets = planets.Where(FilterPlanets).ToList(); 
         smallPlanets.ForEach(p => Console.WriteLine(p.Name));
-
- */
 
 
 
@@ -78,32 +76,32 @@ class Program
         /* Her definerer vi to nye lambda funksjoner, som skal gjøre operasjoner mot tall
         Den første skal se på et vilkårlig tall, og returnere en boolean verdi basert på 
         om tallet er Even eller Odd. */
-        /* Func<int, bool>IsEven = num => num % 2 == 0;
+        Func<int, bool>IsEven = num => num % 2 == 0;
 
-        Den andre verdien leverer en boolean verdi basert på om et vilkårlig tall er større enn 80.
+        /* Den andre verdien leverer en boolean verdi basert på om et vilkårlig tall er større enn 80.*/
         Func<int, bool> IsGreaterThan80 = num => num > 80;
 
-        Her skriver vi ut i terminalen vår alle tallene i numbers som er even. Legg merke til at vi ikke definerer en liste
+        /*Her skriver vi ut i terminalen vår alle tallene i numbers som er even. Legg merke til at vi ikke definerer en liste
         for å holde verdien av .Where() metoden vår. Vi lar den være anonym eller scoped i statementen. 
         Da vil runtimen vår vite at listen den definerer i statementen, kan etter statementen er ferdig å kjøre, 
-        kastes vekk (garbage collected).
-        /* numbers.Where(IsEven).ToList().ForEach(Console.WriteLine); */
+        kastes vekk (garbage collected). */
+        numbers.Where(IsEven).ToList().ForEach(Console.WriteLine);
 
         /* For å få tilsvarende effekt uten å bruke link, måtte vi ha definert en scoped metode,
         som definerer et scoped list i metodebody slik at runtimen ved at listen kan garbage collectes etter scopet er kjørt.*/
-        /* PrintEventNumbers(numbers); */
+        PrintEventNumbers(numbers);
 
         /* Vi kan også chaine spørringer og metoder etterhverandre, 
         og sakte men sikkert bygge opp en kompleks spørring mot en kolleksjon */
-        /* var query = numbers.Where(IsEven);
+        var query = numbers.Where(IsEven);
         query = query.Where(IsGreaterThan80);
 
-        Legg merke til at IsEven funskjonen ikke blir kjørt før vi faktisk konsumerer spørringen ved å lage
+        /*Legg merke til at IsEven funskjonen ikke blir kjørt før vi faktisk konsumerer spørringen ved å lage
         data av den (aka kjører en ToList() metode, eller looper gjennom).
         IEnumerable<int> datatypen som query er, representerer mer et løfte at en eller annen
         gang skal disse metodene kjøres.
-        Men de blir ikke kjørt før vi faktisk bruker de til å lage data, som sett nedenfor. 
-        query.ToList().ForEach(Console.WriteLine); */
+        Men de blir ikke kjørt før vi faktisk bruker de til å lage data, som sett nedenfor. */
+        query.ToList().ForEach(Console.WriteLine);
 
 
         /* Vi kan også lage mer kompliserte lambdafunksjoner, som denne her som tar inn et vilkårlig tall
